@@ -1,16 +1,15 @@
 //
-//  HFPopoverController.m
+//  SettingVC.m
 //  OSPro
 //
-//  Created by smallsevenk on 2018/6/12.
+//  Created by smallsevenk on 2018/6/13.
 //  Copyright © 2018年 HappinessFamily. All rights reserved.
 //
 
-#import "HFPopoverController.h"
+#import "SettingVC.h"
 
-
-
-@interface HFPopoverController ()<NSTableViewDelegate,NSTableViewDataSource>
+@interface SettingVC ()
+<NSTableViewDelegate,NSTableViewDataSource>
 
 
 @property (nonatomic, strong)   NSTableView *tbView;
@@ -18,7 +17,7 @@
 
 @end
 
-@implementation HFPopoverController
+@implementation SettingVC
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -28,7 +27,12 @@
 
 - (void)setUpView
 {
-    self.view.frame = NSMakeRect(0, 0, 100, 100);
+    NSStatusBarButton *btn = [[NSStatusBarButton alloc] initWithFrame:NSMakeRect(100, 100, 100, 40)];
+    
+    //    [self addRightClick:settingBtn];
+    [self.view addSubview:btn];
+    self.view.layer.backgroundColor = [[NSColor redColor] CGColor];
+    self.view.frame = NSMakeRect(0, 0, 300, 600);
     [self.view addSubview:self.tbView];
     
 }

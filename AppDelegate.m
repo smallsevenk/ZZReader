@@ -8,17 +8,14 @@
 
 #import "AppDelegate.h"
 #import "MainWindowCtr.h"
-#import "StatusButton.h"
 #import <AppKit/NSOpenPanel.h>//文件管理
 #import <Carbon/Carbon.h>//快捷键
-#import "HFPopoverController.h"
+#import "SettingVC.h"
 #import "SettingModel.h"
 
 @interface AppDelegate ()
 
 @property (strong)  MainWindowCtr *mainWindow;
-@property (nonatomic, strong)  HFPopoverController *hfPopVc;
-@property (nonatomic, strong)  NSPopover *popover;
 
 @property (nonatomic ,strong)   NSStatusItem *myItem;
 @property (nonatomic, strong)   NSView *statusView;
@@ -53,137 +50,6 @@
 }
 
 
-#pragma mark —— 快捷键
-
-- (void)hotKeyNoti:(NSNotification *)noti
-{
-    NSInteger hotKeyID = [[noti.userInfo objectForKey:@"hotKeyID"] intValue];
-    
-    switch (hotKeyID)
-    {
-        case kVK_LeftArrow://上一行
-        {
-            [self lastLine];
-        }
-            break;
-        case kVK_RightArrow://下一行
-        {
-            [self nextLine];
-        }
-            break;
-        case kVK_Delete://注销快捷键
-        {
-            [self exit];
-//            [self unRegistHotKey];
-        }
-            break;
-        case kVK_Space://注册快捷键
-        {
-            [self registHotKey];
-        }
-            break;
-        case kVK_Return://导入书籍
-        {
-            [self openPanel];
-        }
-            break;
-        default:
-            break;
-    }
-}
-    
-
-OSStatus GlobalHotKeyHandler(EventHandlerCallRef nextHandler,EventRef theEvent,
-                             void *userData)
-{
-    EventHotKeyID hkCom;
-    GetEventParameter(theEvent,kEventParamDirectObject,typeEventHotKeyID,NULL,
-                      sizeof(hkCom),NULL,&hkCom);
-    unsigned int hotKeyId = hkCom.id;
-    [[NSNotificationCenter defaultCenter] postNotificationName:NOTI_HOTKEY object:nil userInfo:@{@"hotKeyID": @(hotKeyId)}];
-
-    return noErr;
-}
-
-- (void)setHotKey
-{
-    [self registHotKey];
-    
-    
-//    [self addMonitorForEvent];
-}
-
-
-
-/**
- * 添加全局的快捷键
- **/
--(void)registHotKey
-{
-    [self hotKeyUpdate:kVK_LeftArrow isRegist:YES];
-    [self hotKeyUpdate:kVK_RightArrow isRegist:YES];
-    [self hotKeyUpdate:kVK_Delete isRegist:YES];
-//    [self hotKeyUpdate:kVK_Space isRegist:YES];
-    [self hotKeyUpdate:kVK_Return isRegist:YES];
-}
-
--(void)unRegistHotKey
-{
-    [self hotKeyUpdate:kVK_LeftArrow isRegist:NO];
-    [self hotKeyUpdate:kVK_RightArrow isRegist:NO];
-    [self hotKeyUpdate:kVK_Delete isRegist:NO];
-    [self hotKeyUpdate:kVK_Return isRegist:NO];
-}
-
--(void)hotKeyUpdate:(NSInteger)keyCode isRegist:(BOOL)isRegist
-{
-    EventHotKeyRef       gMyHotKeyRef;
-    EventHotKeyID        gMyHotKeyID;
-    EventTypeSpec        eventType;
-    eventType.eventClass = kEventClassKeyboard;
-    eventType.eventKind = kEventHotKeyPressed;
-    InstallApplicationEventHandler(&GlobalHotKeyHandler,1,&eventType,NULL,NULL);
-    gMyHotKeyID.signature = 'zick';
-    gMyHotKeyID.id = keyCode;
-    if (isRegist)
-    {
-        RegisterEventHotKey(keyCode, 0, gMyHotKeyID,GetApplicationEventTarget(), 0, &gMyHotKeyRef);
-    }
-    else
-    {
-        UnregisterEventHotKey(gMyHotKeyRef);
-    }
-    
-    // RegisterEventHotKey(keyCode, cmdKey+optionKey, gMyHotKeyID,GetApplicationEventTarget(), 0, &gMyHotKeyRef);
-}
-
-
-#pragma mark —— 基于NSResponder的回调
-
-//需要捕获command + 1234567890事件
-- (void)keyDown:(NSEvent *)theEvent{
-//    NSString *key = [theEvent charactersIgnoringModifiers];
-//    if([self.numKeyStrArray containsObject:key]){
-//        if([theEvent modifierFlags] & NSEventModifierFlagCommand){//command+num
-//            [self pressNum:key];
-//        }
-//    }
-//    [super keyDown:theEvent];
-}
-
--(void)keyUp:(NSEvent *)theEvent {
-    
-}
-
--(void)pressNum:(NSString *)numStr{
-    NSLog(@" 按下 commnd + %@",numStr);
-}
-
-- (BOOL)acceptsFirstResponder{
-    return YES;
-}
-
-//--------------------------------------------
 
 
 - (void)setStatus
@@ -219,43 +85,13 @@ OSStatus GlobalHotKeyHandler(EventHandlerCallRef nextHandler,EventRef theEvent,
 //    [self addRightClick:settingBtn];
     [self.statusView addSubview:self.settingBtn];
     // 创建监视区
-    NSTrackingArea *trackingArea = [[NSTrackingArea alloc] initWithRect:self.settingBtn.bounds options:
-                                    NSTrackingMouseMoved |
-                                    NSTrackingMouseEnteredAndExited |
-                                    NSTrackingActiveAlways owner:self userInfo:nil];
-    
-    // 添加到View中
-    [self.settingBtn addTrackingArea:trackingArea];
-}
-
--(void)rightMouseDown:(NSEvent *)event{
-    
-    //创建Menu
-    
-    NSMenu *theMenu = [[NSMenu alloc] initWithTitle:@"Contextual Menu"];
-    
-    //自定义的NSMenuItem
-    
-    NSMenuItem *item3 = [[NSMenuItem alloc]init];
-    
-    item3.title = @"Item 3";
-    item3.target = self;
-    item3.action = @selector(beep:);
-    
-    [theMenu insertItemWithTitle:@"Item 1"action:@selector(beep:)keyEquivalent:@""atIndex:0];
-    
-    [theMenu insertItemWithTitle:@"Item 2"action:@selector(beep:)keyEquivalent:@""atIndex:1];
-    
-    [theMenu insertItem:item3 atIndex:2];
-    
-    [NSMenu popUpContextMenu:theMenu withEvent:event forView:self.showView];
-    
-}
-
--(void)beep:(NSMenuItem *)menuItem{
-    
-    NSLog(@"_____%@", menuItem);
-    
+//    NSTrackingArea *trackingArea = [[NSTrackingArea alloc] initWithRect:self.settingBtn.bounds options:
+//                                    NSTrackingMouseMoved |
+//                                    NSTrackingMouseEnteredAndExited |
+//                                    NSTrackingActiveAlways owner:self userInfo:nil];
+//
+//    // 添加到View中
+//    [self.settingBtn addTrackingArea:trackingArea];
 }
 
 - (void)showText
@@ -276,8 +112,9 @@ OSStatus GlobalHotKeyHandler(EventHandlerCallRef nextHandler,EventRef theEvent,
     }
     NSLog(@"内容:%@",self.showView.stringValue);
     [self.showView sizeToFit];
+    self.statusView.frame = NSMakeRect(0, 0, self.showView.frame.size.width + 17, 20);
     self.showView.frame = NSMakeRect(0, 0, self.showView.frame.size.width, 20);
-
+    self.settingBtn.frame = NSMakeRect(self.showView.frame.size.width, 3, 17, 17); 
 }
 
 
@@ -333,12 +170,13 @@ OSStatus GlobalHotKeyHandler(EventHandlerCallRef nextHandler,EventRef theEvent,
     }
 }
 
+
 - (void)saveModel
 {
     [SettingModel saveSetting:self.setting];
 }
 
-#pragma mark —— Popover
+#pragma mark —— Event
 
 - (void)addMonitorForEvent
 {
@@ -347,20 +185,50 @@ OSStatus GlobalHotKeyHandler(EventHandlerCallRef nextHandler,EventRef theEvent,
         
         NSPoint p = [event locationInWindow];
         //判断坐标是否处于保护区内
-        if(CGRectContainsPoint(self.showView.frame, p))
+        if(CGRectContainsPoint(self.settingBtn.frame, p))
         {
-            weakSelf.popover = [[NSPopover alloc] init];
-            /* 设置动画 */
-            weakSelf.popover.behavior = NSPopoverBehaviorTransient;
-            /* 设置外观 */
-            weakSelf.popover.appearance = [NSAppearance appearanceNamed:NSAppearanceNameVibrantDark];
-            /* 设置展示视图 */
-            weakSelf.popover.contentViewController = [[HFPopoverController alloc] init];
-            /* 设置展示方位 */
-            [weakSelf.popover showRelativeToRect:self.showView.bounds ofView:self.showView preferredEdge:NSRectEdgeMaxY];
+//            weakSelf.popover = [[NSPopover alloc] init];
+//            /* 设置动画 */
+//            weakSelf.popover.behavior = NSPopoverBehaviorTransient;
+//            /* 设置外观 */
+//            weakSelf.popover.appearance = [NSAppearance appearanceNamed:NSAppearanceNameVibrantDark];
+//            /* 设置展示视图 */
+//            weakSelf.popover.contentViewController = [[HFPopoverController alloc] init];
+//            /* 设置展示方位 */
+//            [weakSelf.popover showRelativeToRect:self.showView.bounds ofView:self.showView preferredEdge:NSRectEdgeMaxY];
+            [weakSelf rightMouseDown:event];
         }
         return event;
     }];
+}
+
+-(void)rightMouseDown:(NSEvent *)event{
+    
+    //创建Menu
+    
+    NSMenu *theMenu = [[NSMenu alloc] init];
+    
+    //自定义的NSMenuItem
+    
+    NSMenuItem *item1 = [[NSMenuItem alloc]init];
+    item1.title = @"偏好设置";
+    item1.target = self;
+    item1.action = @selector(toSetting:);
+    
+    [theMenu insertItem:item1 atIndex:0];
+    [theMenu insertItemWithTitle:@"退出"action:@selector(exit)keyEquivalent:@""atIndex:1];
+    
+    [NSMenu popUpContextMenu:theMenu withEvent:event forView:self.settingBtn];
+}
+
+-(void)toSetting:(id)sender
+{
+    _mainWindow = [[MainWindowCtr alloc] initWithWindowNibName:@"MainWindowCtr"];
+    //显示在屏幕中心
+    [[_mainWindow window] center];
+    [self.mainWindow setContentViewController:[SettingVC new]];
+    //当前窗口显示
+    [_mainWindow.window orderFront:nil];
 }
 
 
@@ -382,6 +250,139 @@ OSStatus GlobalHotKeyHandler(EventHandlerCallRef nextHandler,EventRef theEvent,
     [SettingModel saveSetting:self.setting];
     [[NSApplication sharedApplication] terminate:nil];
 }
+
+
+#pragma mark —— 快捷键
+
+- (void)hotKeyNoti:(NSNotification *)noti
+{
+    NSInteger hotKeyID = [[noti.userInfo objectForKey:@"hotKeyID"] intValue];
+    
+    switch (hotKeyID)
+    {
+        case kVK_LeftArrow://上一行
+        {
+            [self lastLine];
+        }
+            break;
+        case kVK_RightArrow://下一行
+        {
+            [self nextLine];
+        }
+            break;
+        case kVK_Delete://注销快捷键
+        {
+            [self exit];
+            //            [self unRegistHotKey];
+        }
+            break;
+        case kVK_Space://注册快捷键
+        {
+            [self registHotKey];
+        }
+            break;
+        case kVK_Return://导入书籍
+        {
+            [self openPanel];
+        }
+            break;
+        default:
+            break;
+    }
+}
+
+
+OSStatus GlobalHotKeyHandler(EventHandlerCallRef nextHandler,EventRef theEvent,
+                             void *userData)
+{
+    EventHotKeyID hkCom;
+    GetEventParameter(theEvent,kEventParamDirectObject,typeEventHotKeyID,NULL,
+                      sizeof(hkCom),NULL,&hkCom);
+    unsigned int hotKeyId = hkCom.id;
+    [[NSNotificationCenter defaultCenter] postNotificationName:NOTI_HOTKEY object:nil userInfo:@{@"hotKeyID": @(hotKeyId)}];
+    
+    return noErr;
+}
+
+- (void)setHotKey
+{
+    [self registHotKey];
+    
+    
+    [self addMonitorForEvent];
+}
+
+
+
+/**
+ * 添加全局的快捷键
+ **/
+-(void)registHotKey
+{
+    [self hotKeyUpdate:kVK_LeftArrow isRegist:YES];
+    [self hotKeyUpdate:kVK_RightArrow isRegist:YES];
+    [self hotKeyUpdate:kVK_Delete isRegist:YES];
+    //    [self hotKeyUpdate:kVK_Space isRegist:YES];
+    [self hotKeyUpdate:kVK_Return isRegist:YES];
+}
+
+-(void)unRegistHotKey
+{
+    [self hotKeyUpdate:kVK_LeftArrow isRegist:NO];
+    [self hotKeyUpdate:kVK_RightArrow isRegist:NO];
+    [self hotKeyUpdate:kVK_Delete isRegist:NO];
+    [self hotKeyUpdate:kVK_Return isRegist:NO];
+}
+
+-(void)hotKeyUpdate:(NSInteger)keyCode isRegist:(BOOL)isRegist
+{
+    EventHotKeyRef       gMyHotKeyRef;
+    EventHotKeyID        gMyHotKeyID;
+    EventTypeSpec        eventType;
+    eventType.eventClass = kEventClassKeyboard;
+    eventType.eventKind = kEventHotKeyPressed;
+    InstallApplicationEventHandler(&GlobalHotKeyHandler,1,&eventType,NULL,NULL);
+    gMyHotKeyID.signature = 'zick';
+    gMyHotKeyID.id = keyCode;
+    if (isRegist)
+    {
+        RegisterEventHotKey(keyCode, 0, gMyHotKeyID,GetApplicationEventTarget(), 0, &gMyHotKeyRef);
+    }
+    else
+    {
+        UnregisterEventHotKey(gMyHotKeyRef);
+    }
+    
+    // RegisterEventHotKey(keyCode, cmdKey+optionKey, gMyHotKeyID,GetApplicationEventTarget(), 0, &gMyHotKeyRef);
+}
+
+
+#pragma mark —— 基于NSResponder的回调
+
+//需要捕获command + 1234567890事件
+- (void)keyDown:(NSEvent *)theEvent{
+    //    NSString *key = [theEvent charactersIgnoringModifiers];
+    //    if([self.numKeyStrArray containsObject:key]){
+    //        if([theEvent modifierFlags] & NSEventModifierFlagCommand){//command+num
+    //            [self pressNum:key];
+    //        }
+    //    }
+    //    [super keyDown:theEvent];
+}
+
+-(void)keyUp:(NSEvent *)theEvent {
+    
+}
+
+-(void)pressNum:(NSString *)numStr{
+    NSLog(@" 按下 commnd + %@",numStr);
+}
+
+- (BOOL)acceptsFirstResponder{
+    return YES;
+}
+
+//--------------------------------------------
 
 - (void)applicationWillTerminate:(NSNotification *)aNotification {
     // Insert code here to tear down your application

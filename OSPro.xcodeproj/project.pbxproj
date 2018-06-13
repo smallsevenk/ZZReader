@@ -16,9 +16,9 @@
 		A6EEEA6E20CE471B0096D48A /* MainWindowCtr.m in Sources */ = {isa = PBXBuildFile; fileRef = A6EEEA6C20CE471B0096D48A /* MainWindowCtr.m */; };
 		A6EEEA6F20CE471B0096D48A /* MainWindowCtr.xib in Resources */ = {isa = PBXBuildFile; fileRef = A6EEEA6D20CE471B0096D48A /* MainWindowCtr.xib */; };
 		A6EEEA7120CE48C90096D48A /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = A6EEEA7020CE48C90096D48A /* MainMenu.xib */; };
+		A6F4375820D0F451006A808B /* SettingVC.m in Sources */ = {isa = PBXBuildFile; fileRef = A6F4375620D0F451006A808B /* SettingVC.m */; };
+		A6F4375920D0F451006A808B /* SettingVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = A6F4375720D0F451006A808B /* SettingVC.xib */; };
 		A6FE994B20CF5BFB002003F8 /* Carbon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A6FE994A20CF5BFB002003F8 /* Carbon.framework */; };
-		A6FE995720CF7C06002003F8 /* HFPopoverController.m in Sources */ = {isa = PBXBuildFile; fileRef = A6FE995520CF7C06002003F8 /* HFPopoverController.m */; };
-		A6FE995820CF7C06002003F8 /* HFPopoverController.xib in Resources */ = {isa = PBXBuildFile; fileRef = A6FE995620CF7C06002003F8 /* HFPopoverController.xib */; };
 		A6FE995B20CFBD7A002003F8 /* SettingModel.m in Sources */ = {isa = PBXBuildFile; fileRef = A6FE995A20CFBD7A002003F8 /* SettingModel.m */; };
 		A6FE997320CFC2E8002003F8 /* MJPropertyType.m in Sources */ = {isa = PBXBuildFile; fileRef = A6FE996120CFC2E8002003F8 /* MJPropertyType.m */; };
 		A6FE997420CFC2E8002003F8 /* NSObject+MJKeyValue.m in Sources */ = {isa = PBXBuildFile; fileRef = A6FE996420CFC2E8002003F8 /* NSObject+MJKeyValue.m */; };
@@ -50,10 +50,10 @@
 		A6EEEA6C20CE471B0096D48A /* MainWindowCtr.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MainWindowCtr.m; sourceTree = "<group>"; };
 		A6EEEA6D20CE471B0096D48A /* MainWindowCtr.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MainWindowCtr.xib; sourceTree = "<group>"; };
 		A6EEEA7020CE48C90096D48A /* MainMenu.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MainMenu.xib; sourceTree = "<group>"; };
+		A6F4375520D0F451006A808B /* SettingVC.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SettingVC.h; sourceTree = "<group>"; };
+		A6F4375620D0F451006A808B /* SettingVC.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SettingVC.m; sourceTree = "<group>"; };
+		A6F4375720D0F451006A808B /* SettingVC.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = SettingVC.xib; sourceTree = "<group>"; };
 		A6FE994A20CF5BFB002003F8 /* Carbon.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Carbon.framework; path = System/Library/Frameworks/Carbon.framework; sourceTree = SDKROOT; };
-		A6FE995420CF7C06002003F8 /* HFPopoverController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HFPopoverController.h; sourceTree = "<group>"; };
-		A6FE995520CF7C06002003F8 /* HFPopoverController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HFPopoverController.m; sourceTree = "<group>"; };
-		A6FE995620CF7C06002003F8 /* HFPopoverController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = HFPopoverController.xib; sourceTree = "<group>"; };
 		A6FE995920CFBD7A002003F8 /* SettingModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SettingModel.h; sourceTree = "<group>"; };
 		A6FE995A20CFBD7A002003F8 /* SettingModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SettingModel.m; sourceTree = "<group>"; };
 		A6FE995E20CFC2E8002003F8 /* MJPropertyKey.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MJPropertyKey.h; sourceTree = "<group>"; };
@@ -192,9 +192,9 @@
 			children = (
 				A6F4374E20D0AD47006A808B /* Model */,
 				A6F4374D20D0AD3D006A808B /* Views */,
-				A6FE995420CF7C06002003F8 /* HFPopoverController.h */,
-				A6FE995520CF7C06002003F8 /* HFPopoverController.m */,
-				A6FE995620CF7C06002003F8 /* HFPopoverController.xib */,
+				A6F4375520D0F451006A808B /* SettingVC.h */,
+				A6F4375620D0F451006A808B /* SettingVC.m */,
+				A6F4375720D0F451006A808B /* SettingVC.xib */,
 			);
 			path = HFStatusBar;
 			sourceTree = "<group>";
@@ -320,7 +320,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				A6EEEA6F20CE471B0096D48A /* MainWindowCtr.xib in Resources */,
-				A6FE995820CF7C06002003F8 /* HFPopoverController.xib in Resources */,
+				A6F4375920D0F451006A808B /* SettingVC.xib in Resources */,
 				A6EEEA5020CE43DD0096D48A /* Assets.xcassets in Resources */,
 				A6EEEA7120CE48C90096D48A /* MainMenu.xib in Resources */,
 			);
@@ -342,7 +342,6 @@
 				A62F389F20CE5AD700054F06 /* StatusButton.m in Sources */,
 				A6FE997B20CFC2E8002003F8 /* MJPropertyKey.m in Sources */,
 				A6EEEA5620CE43DD0096D48A /* main.m in Sources */,
-				A6FE995720CF7C06002003F8 /* HFPopoverController.m in Sources */,
 				A6FE997A20CFC2E8002003F8 /* NSString+MJExtension.m in Sources */,
 				A6EEEA4E20CE43DD0096D48A /* AppDelegate.m in Sources */,
 				A6EEEA6420CE45A00096D48A /* HFBaseController.m in Sources */,
@@ -350,6 +349,7 @@
 				A6FE997620CFC2E8002003F8 /* NSObject+MJCoding.m in Sources */,
 				A6FE997420CFC2E8002003F8 /* NSObject+MJKeyValue.m in Sources */,
 				A6EEEA6E20CE471B0096D48A /* MainWindowCtr.m in Sources */,
+				A6F4375820D0F451006A808B /* SettingVC.m in Sources */,
 				A6FE997520CFC2E8002003F8 /* MJProperty.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

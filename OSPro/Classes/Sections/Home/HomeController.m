@@ -15,8 +15,7 @@
 @implementation HomeController
 
 - (void)viewDidLoad {
-    [super viewDidLoad];
-    NSOpenPanel *panel = [NSOpenPanel openPanel];
+    [super viewDidLoad]; 
     // Do view setup here.
     
 }
