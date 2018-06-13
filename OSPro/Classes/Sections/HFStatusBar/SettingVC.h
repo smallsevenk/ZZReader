@@ -7,7 +7,8 @@
 //
 
 #import <Cocoa/Cocoa.h>
+#import "HFBaseController.h"
 
-@interface SettingVC : NSViewController
+@interface SettingVC : HFBaseController
 
 @end

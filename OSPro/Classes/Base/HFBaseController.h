@@ -7,7 +7,10 @@
 //
 
 #import <Cocoa/Cocoa.h>
+#import "FlippedView.h"
 
 @interface HFBaseController : NSViewController
+
+@property (nonatomic, strong)   FlippedView *mainView;
 
 @end

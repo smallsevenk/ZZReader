@@ -8,9 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import "MJExtension.h"
-#import <Cocoa/Cocoa.h>
-
-#define DEFAULT_SHOW_LENGTH 20
+#import <Cocoa/Cocoa.h> 
 
 @interface SettingModel : NSObject<NSCoding>
 
@@ -20,8 +18,8 @@
 @property (nonatomic, assign)   NSInteger showLength;//显示文字长度
 //@property (nonatomic, assign)   CGFloat showWidth;//显示视图长度
 @property (nonatomic, assign)   NSInteger fontSize;//显示字体大小
-@property (nonatomic, strong)   NSColor *textColor;//显示文字颜色
-@property (nonatomic, strong)   NSColor *bgColor;//显示文字背景色
+@property (nonatomic, strong)   NSString *textColor;//显示文字颜色
+@property (nonatomic, strong)   NSString *bgColor;//显示文字背景色
 @property (nonatomic, assign)   NSInteger endShowStrLength;//最后显示文字长度
 
 + (SettingModel *)settingInfo;
@@ -33,5 +31,9 @@
 + (void)removeSetting;
 
 + (BOOL)haveNovel;
+
++ (NSColor *)color:(NSString *)colorStr;
+
++ (NSString *)colorString:(NSColor *)color;
 
 @end

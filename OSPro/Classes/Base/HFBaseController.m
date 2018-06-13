@@ -7,16 +7,28 @@
 //
 
 #import "HFBaseController.h"
+#import "AppDelegate.h"
 
 @interface HFBaseController ()
 
 @end
 
 @implementation HFBaseController
+@synthesize mainView;
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    // Do view setup here.
+    
+    [self setUpViews];
+}
+
+- (void)setUpViews
+{
+    self.view.frame = NSMakeRect(0, 0, 500, 300);
+    mainView = [[FlippedView alloc] initWithFrame:self.view.frame];
+    mainView.layer.backgroundColor = [[NSColor orangeColor] CGColor];
+    mainView.needsDisplay = YES; 
+    [self.view addSubview:mainView];
 }
 
 @end

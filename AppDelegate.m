@@ -7,15 +7,13 @@
 //
 
 #import "AppDelegate.h"
-#import "MainWindowCtr.h"
+
 #import <AppKit/NSOpenPanel.h>//文件管理
 #import <Carbon/Carbon.h>//快捷键
 #import "SettingVC.h"
 #import "SettingModel.h"
 
-@interface AppDelegate ()
-
-@property (strong)  MainWindowCtr *mainWindow;
+@interface AppDelegate () 
 
 @property (nonatomic ,strong)   NSStatusItem *myItem;
 @property (nonatomic, strong)   NSView *statusView;
@@ -28,6 +26,11 @@
 @end
 
 @implementation AppDelegate
+
++ (AppDelegate*)share
+{
+    return (AppDelegate*)[NSApplication sharedApplication].delegate;
+}
 
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification {
     // Insert code here to initialize your application
@@ -54,7 +57,7 @@
 
 - (void)setStatus
 {
-    [SettingModel removeSetting];
+    
     if ([SettingModel haveNovel])
     {
         self.setting = [SettingModel settingInfo];
@@ -62,36 +65,28 @@
     else
     {
         self.setting = [[SettingModel alloc] init];
+        [self saveModel];
     }
     
     self.myItem = [[NSStatusBar systemStatusBar] statusItemWithLength:NSVariableStatusItemLength];
     
-    self.statusView = [[NSView alloc] initWithFrame:NSMakeRect(0, 0, 100, 20)];
+    self.statusView = [[NSView alloc] initWithFrame:NSMakeRect(0, 0, 100, 22)];
     [self.myItem setView:self.statusView];
     
-    self.showView = [[NSTextField alloc] initWithFrame:NSMakeRect(0, 0, self.statusView.frame.size.width - 17, 20)];
+    self.showView = [[NSTextField alloc] initWithFrame:NSMakeRect(0, 0, self.statusView.frame.size.width - 17, 22)];
     self.showView.editable = NO;
     self.showView.bordered = NO;
     self.showView.alignment = NSTextAlignmentCenter;
-    self.showView.backgroundColor = self.setting.bgColor;
+    self.showView.backgroundColor = [SettingModel color:self.setting.bgColor];
     self.showView.font = [NSFont systemFontOfSize:self.setting.fontSize];
-    self.showView.textColor = self.setting.textColor;
-//    [self showText];
+    self.showView.textColor = [SettingModel color:self.setting.textColor];
     [self.statusView addSubview:self.showView];
     
     self.settingBtn = [[NSStatusBarButton alloc] initWithFrame:NSMakeRect(self.showView.frame.size.width, 3, 17, 17)];
     self.settingBtn.image = [NSImage imageNamed:@"setting"];
-    
-//    [self addRightClick:settingBtn];
     [self.statusView addSubview:self.settingBtn];
-    // 创建监视区
-//    NSTrackingArea *trackingArea = [[NSTrackingArea alloc] initWithRect:self.settingBtn.bounds options:
-//                                    NSTrackingMouseMoved |
-//                                    NSTrackingMouseEnteredAndExited |
-//                                    NSTrackingActiveAlways owner:self userInfo:nil];
-//
-//    // 添加到View中
-//    [self.settingBtn addTrackingArea:trackingArea];
+    
+    [self showText];
 }
 
 - (void)showText
@@ -111,10 +106,11 @@
         self.showView.stringValue =  [self.setting.novel substringWithRange:NSMakeRange(self.setting.startIndex, self.setting.showLength)];
     }
     NSLog(@"内容:%@",self.showView.stringValue);
+    
     [self.showView sizeToFit];
-    self.statusView.frame = NSMakeRect(0, 0, self.showView.frame.size.width + 17, 20);
-    self.showView.frame = NSMakeRect(0, 0, self.showView.frame.size.width, 20);
-    self.settingBtn.frame = NSMakeRect(self.showView.frame.size.width, 3, 17, 17); 
+    self.statusView.frame = NSMakeRect(0, 0, self.showView.frame.size.width + 30, 22);
+    self.showView.frame = NSMakeRect(0, 0, self.showView.frame.size.width, 22);
+    self.settingBtn.frame = NSMakeRect(self.showView.frame.size.width + 5, 2.5f, 17, 17);
 }
 
 

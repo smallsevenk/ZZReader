@@ -18,6 +18,8 @@
 		A6EEEA7120CE48C90096D48A /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = A6EEEA7020CE48C90096D48A /* MainMenu.xib */; };
 		A6F4375820D0F451006A808B /* SettingVC.m in Sources */ = {isa = PBXBuildFile; fileRef = A6F4375620D0F451006A808B /* SettingVC.m */; };
 		A6F4375920D0F451006A808B /* SettingVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = A6F4375720D0F451006A808B /* SettingVC.xib */; };
+		A6F4385320D10048006A808B /* FlippedView.m in Sources */ = {isa = PBXBuildFile; fileRef = A6F4385220D10048006A808B /* FlippedView.m */; };
+		A6F4385620D10D3E006A808B /* SettingCol.m in Sources */ = {isa = PBXBuildFile; fileRef = A6F4385520D10D3E006A808B /* SettingCol.m */; };
 		A6FE994B20CF5BFB002003F8 /* Carbon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A6FE994A20CF5BFB002003F8 /* Carbon.framework */; };
 		A6FE995B20CFBD7A002003F8 /* SettingModel.m in Sources */ = {isa = PBXBuildFile; fileRef = A6FE995A20CFBD7A002003F8 /* SettingModel.m */; };
 		A6FE997320CFC2E8002003F8 /* MJPropertyType.m in Sources */ = {isa = PBXBuildFile; fileRef = A6FE996120CFC2E8002003F8 /* MJPropertyType.m */; };
@@ -53,6 +55,10 @@
 		A6F4375520D0F451006A808B /* SettingVC.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SettingVC.h; sourceTree = "<group>"; };
 		A6F4375620D0F451006A808B /* SettingVC.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SettingVC.m; sourceTree = "<group>"; };
 		A6F4375720D0F451006A808B /* SettingVC.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = SettingVC.xib; sourceTree = "<group>"; };
+		A6F4385120D10048006A808B /* FlippedView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FlippedView.h; sourceTree = "<group>"; };
+		A6F4385220D10048006A808B /* FlippedView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FlippedView.m; sourceTree = "<group>"; };
+		A6F4385420D10D3E006A808B /* SettingCol.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SettingCol.h; sourceTree = "<group>"; };
+		A6F4385520D10D3E006A808B /* SettingCol.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SettingCol.m; sourceTree = "<group>"; };
 		A6FE994A20CF5BFB002003F8 /* Carbon.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Carbon.framework; path = System/Library/Frameworks/Carbon.framework; sourceTree = SDKROOT; };
 		A6FE995920CFBD7A002003F8 /* SettingModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SettingModel.h; sourceTree = "<group>"; };
 		A6FE995A20CFBD7A002003F8 /* SettingModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SettingModel.m; sourceTree = "<group>"; };
@@ -175,6 +181,10 @@
 		A6F4374A20D0ACB0006A808B /* comm */ = {
 			isa = PBXGroup;
 			children = (
+				A62F389D20CE5AD700054F06 /* StatusButton.h */,
+				A62F389E20CE5AD700054F06 /* StatusButton.m */,
+				A6F4385120D10048006A808B /* FlippedView.h */,
+				A6F4385220D10048006A808B /* FlippedView.m */,
 			);
 			path = comm;
 			sourceTree = "<group>";
@@ -202,8 +212,8 @@
 		A6F4374D20D0AD3D006A808B /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				A62F389D20CE5AD700054F06 /* StatusButton.h */,
-				A62F389E20CE5AD700054F06 /* StatusButton.m */,
+				A6F4385420D10D3E006A808B /* SettingCol.h */,
+				A6F4385520D10D3E006A808B /* SettingCol.m */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -335,6 +345,7 @@
 			files = (
 				A6FE997320CFC2E8002003F8 /* MJPropertyType.m in Sources */,
 				A6FE997720CFC2E8002003F8 /* MJExtensionConst.m in Sources */,
+				A6F4385320D10048006A808B /* FlippedView.m in Sources */,
 				A6FE995B20CFBD7A002003F8 /* SettingModel.m in Sources */,
 				A6FE997C20CFC2E8002003F8 /* MJFoundation.m in Sources */,
 				A6FE997920CFC2E8002003F8 /* NSObject+MJClass.m in Sources */,
@@ -351,6 +362,7 @@
 				A6EEEA6E20CE471B0096D48A /* MainWindowCtr.m in Sources */,
 				A6F4375820D0F451006A808B /* SettingVC.m in Sources */,
 				A6FE997520CFC2E8002003F8 /* MJProperty.m in Sources */,
+				A6F4385620D10D3E006A808B /* SettingCol.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

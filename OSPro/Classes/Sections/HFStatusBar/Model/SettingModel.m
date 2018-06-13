@@ -19,10 +19,10 @@ MJExtensionCodingImplementation
 {
     if (self = [super init]) {
         self.startIndex = 0;
-        self.showLength = DEFAULT_SHOW_LENGTH;
+        self.showLength = 20;
         self.endShowStrLength = self.showLength;
-        self.textColor  = [NSColor orangeColor];
-        self.bgColor = [NSColor clearColor];
+        self.textColor  = @"黑";
+        self.bgColor = @"无";
         self.fontSize = 14;
         self.novel = @"";
     }
@@ -74,6 +74,87 @@ MJExtensionCodingImplementation
 {
     SettingModel *setting = [self settingInfo];
     return (setting.novel.length > 0);//沙盒里面 用户名
+}
+
++ (NSColor *)color:(NSString *)colorStr
+{
+    //  @"黑",@"白",@"红",@"黄",@"绿",@"蓝",@"橙",@"紫",@"无"
+    if ([colorStr isEqualToString:@"黑"])
+    {
+        return [NSColor blackColor];
+    }
+    else if ([colorStr isEqualToString:@"白"])
+    {
+        return [NSColor whiteColor];
+    }
+    else if ([colorStr isEqualToString:@"红"])
+    {
+        return [NSColor redColor];
+    }
+    else if ([colorStr isEqualToString:@"黄"])
+    {
+        return [NSColor yellowColor];
+    }
+    else if ([colorStr isEqualToString:@"绿"])
+    {
+        return [NSColor greenColor];
+    }
+    else if ([colorStr isEqualToString:@"蓝"])
+    {
+        return [NSColor blueColor];
+    }
+    else if ([colorStr isEqualToString:@"橙"])
+    {
+        return [NSColor orangeColor];
+    }
+    else if ([colorStr isEqualToString:@"紫"])
+    {
+        return [NSColor purpleColor];
+    }
+    else{
+        return [NSColor clearColor];
+    }
+}
+
++ (NSString *)colorString:(NSColor *)color
+{
+    //  @"黑",@"白",@"红",@"黄",@"绿",@"蓝",@"橙",@"紫",@"无"
+    if (color == [NSColor blackColor])
+    {
+        return @"黑";
+    }
+    else if (color == [NSColor whiteColor])
+    {
+        return @"白";
+    }
+    else if (color == [NSColor redColor])
+    {
+        return @"红";
+    }
+    else if (color == [NSColor yellowColor])
+    {
+        return @"黄";
+    }
+    else if (color == [NSColor greenColor])
+    {
+        return @"绿";
+    }
+    else if (color == [NSColor blueColor])
+    {
+        return @"蓝";
+    }
+    else if (color == [NSColor orangeColor])
+    {
+        return @"橙";
+    }
+    else if (color == [NSColor purpleColor])
+    {
+        return @"紫";
+    }
+    else
+    {
+        return @"无";
+    }
 }
 
 

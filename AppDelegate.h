@@ -7,9 +7,13 @@
 //
 
 #import <Cocoa/Cocoa.h>
+#import "MainWindowCtr.h"
 
 @interface AppDelegate : NSObject <NSApplicationDelegate>
 
+@property (strong)  MainWindowCtr *mainWindow;
+
++ (AppDelegate*)share;
 
 @end
 
