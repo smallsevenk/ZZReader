@@ -1,0 +1,13 @@
+//
+//  HFPopoverController.h
+//  OSPro
+//
+//  Created by smallsevenk on 2018/6/12.
+//  Copyright © 2018年 HappinessFamily. All rights reserved.
+//
+
+#import <Cocoa/Cocoa.h>
+
+@interface HFPopoverController : NSViewController
+
+@end

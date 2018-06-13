@@ -9,21 +9,23 @@
 #import "AppDelegate.h"
 #import "MainWindowCtr.h"
 #import "StatusButton.h"
-#import <AppKit/NSOpenPanel.h>
+#import <AppKit/NSOpenPanel.h>//文件管理
+#import <Carbon/Carbon.h>//快捷键
+#import "HFPopoverController.h"
+#import "SettingModel.h"
 
 @interface AppDelegate ()
 
 @property (strong)  MainWindowCtr *mainWindow;
+@property (nonatomic, strong)  HFPopoverController *hfPopVc;
+@property (nonatomic, strong)  NSPopover *popover;
 
-@property (nonatomic ,strong) NSStatusItem *myItem;
+@property (nonatomic ,strong)   NSStatusItem *myItem;
 @property (nonatomic, strong)   NSTextField *showView;
-@property (nonatomic, copy)   NSString *readStr;//文本内容
-@property (nonatomic, assign)   long int startIndex;//显示文字起始位置
-@property (nonatomic, assign)   NSInteger showLength;//显示文字长度
-@property (nonatomic, assign)   CGFloat showWidth;//显示视图长度
-@property (nonatomic, assign)   NSInteger fontSize;//显示字体大小
-@property (nonatomic, assign)   NSInteger endShowStrLength;//最后显示文字长度
 
+@property (nonatomic, strong)   SettingModel *setting;
+
+#define NOTI_HOTKEY @"NOTI_HOTKEY"
 
 @end
 
@@ -34,95 +36,234 @@
 //    _mainWindow = [[MainWindowCtr alloc] initWithWindowNibName:@"MainWindowCtr"];
 //    //显示在屏幕中心
 //    [[_mainWindow window] center];
-//
 //    //当前窗口显示
 //    [_mainWindow.window orderFront:nil];
+    
+    
+    [self initializeApp];
+}
+
+
+- (void)initializeApp
+{
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(hotKeyNoti:) name:NOTI_HOTKEY object:nil];
+    [self setHotKey];
     [self setStatus];
 }
 
 
-- (void)applicationWillTerminate:(NSNotification *)aNotification {
-    // Insert code here to tear down your application
+#pragma mark —— 快捷键
+
+- (void)hotKeyNoti:(NSNotification *)noti
+{
+    NSInteger hotKeyID = [[noti.userInfo objectForKey:@"hotKeyID"] intValue];
+    
+    switch (hotKeyID)
+    {
+        case kVK_LeftArrow://上一行
+        {
+            [self lastLine];
+        }
+            break;
+        case kVK_RightArrow://下一行
+        {
+            [self nextLine];
+        }
+            break;
+        case kVK_Delete://注销快捷键
+        {
+            [self exit];
+//            [self unRegistHotKey];
+        }
+            break;
+        case kVK_Space://注册快捷键
+        {
+            [self registHotKey];
+        }
+            break;
+        case kVK_Return://导入书籍
+        {
+            [self openPanel];
+        }
+            break;
+        default:
+            break;
+    }
 }
+    
+
+OSStatus GlobalHotKeyHandler(EventHandlerCallRef nextHandler,EventRef theEvent,
+                             void *userData)
+{
+    EventHotKeyID hkCom;
+    GetEventParameter(theEvent,kEventParamDirectObject,typeEventHotKeyID,NULL,
+                      sizeof(hkCom),NULL,&hkCom);
+    unsigned int hotKeyId = hkCom.id;
+    [[NSNotificationCenter defaultCenter] postNotificationName:NOTI_HOTKEY object:nil userInfo:@{@"hotKeyID": @(hotKeyId)}];
+
+    return noErr;
+}
+
+- (void)setHotKey
+{
+    [self registHotKey];
+    [self addMonitorForEvent];
+}
+
+
+
+/**
+ * 添加全局的快捷键
+ **/
+-(void)registHotKey
+{
+    [self hotKeyUpdate:kVK_LeftArrow isRegist:YES];
+    [self hotKeyUpdate:kVK_RightArrow isRegist:YES];
+    [self hotKeyUpdate:kVK_Delete isRegist:YES];
+//    [self hotKeyUpdate:kVK_Space isRegist:YES];
+    [self hotKeyUpdate:kVK_Return isRegist:YES];
+}
+
+-(void)unRegistHotKey
+{
+    [self hotKeyUpdate:kVK_LeftArrow isRegist:NO];
+    [self hotKeyUpdate:kVK_RightArrow isRegist:NO];
+    [self hotKeyUpdate:kVK_Delete isRegist:NO];
+    [self hotKeyUpdate:kVK_Return isRegist:NO];
+}
+
+-(void)hotKeyUpdate:(NSInteger)keyCode isRegist:(BOOL)isRegist
+{
+    EventHotKeyRef       gMyHotKeyRef;
+    EventHotKeyID        gMyHotKeyID;
+    EventTypeSpec        eventType;
+    eventType.eventClass = kEventClassKeyboard;
+    eventType.eventKind = kEventHotKeyPressed;
+    InstallApplicationEventHandler(&GlobalHotKeyHandler,1,&eventType,NULL,NULL);
+    gMyHotKeyID.signature = 'zick';
+    gMyHotKeyID.id = keyCode;
+    if (isRegist)
+    {
+        RegisterEventHotKey(keyCode, 0, gMyHotKeyID,GetApplicationEventTarget(), 0, &gMyHotKeyRef);
+    }
+    else
+    {
+        UnregisterEventHotKey(gMyHotKeyRef);
+    }
+    
+    // RegisterEventHotKey(keyCode, cmdKey+optionKey, gMyHotKeyID,GetApplicationEventTarget(), 0, &gMyHotKeyRef);
+}
+
+
+#pragma mark —— 基于NSResponder的回调
+
+//需要捕获command + 1234567890事件
+- (void)keyDown:(NSEvent *)theEvent{
+//    NSString *key = [theEvent charactersIgnoringModifiers];
+//    if([self.numKeyStrArray containsObject:key]){
+//        if([theEvent modifierFlags] & NSEventModifierFlagCommand){//command+num
+//            [self pressNum:key];
+//        }
+//    }
+//    [super keyDown:theEvent];
+}
+
+-(void)keyUp:(NSEvent *)theEvent {
+    
+}
+
+-(void)pressNum:(NSString *)numStr{
+    NSLog(@" 按下 commnd + %@",numStr);
+}
+
+- (BOOL)acceptsFirstResponder{
+    return YES;
+}
+
+//--------------------------------------------
+
 
 - (void)setStatus
 {
-    self.startIndex = 0;
-    self.showLength = 2;
-    self.showWidth = 400;
-    self.fontSize = 14;
-    self.readStr = @"哼，你可以试试，看看是谁杀谁！”冯凯毫不示弱的在二楼冷喝。秦烈和很多人都在下层，只能听到上面传来的争吵声，不能看到上面两人的状况。“安静。”一个不耐的声音，从更上面的楼层传来，声音浑厚有力，哼道：“如果不想遵守我的规矩，就都给我滚出去！”此言一出，冯凯和裴安的争吵声立即停了下来，两人还嗫嚅着，同声致歉：“潘老息怒。”“潘老，他是谁？”有初来的人低声询问。“潘老就是潘珏铭，是冰岩城这家器具阁分店的负责人，连碎冰府府主严文彦，和星云阁的阁主屠漠，都要给他几分面子，更何况冯凯和裴安了？”有知情者轻声解释。秦烈在人群中听着，默默看向通往上一层的楼梯口，暗自苦笑。他境界不够，身家也不阔绰，显然不够资格去上一层看看，沉吟了一下，趁着大家注意力都放在先前的事情上，他找到一名器具阁的女店员，拿出一块刻画了聚灵阵图的灵板，说道：“器具阁收灵材么？";
+    if ([SettingModel haveNovel])
+    {
+        self.setting = [SettingModel settingInfo];
+    }
+    else
+    {
+        self.setting = [[SettingModel alloc] init];
+    }
     
-    // 创建NSStatusItem并添加到系统状态栏上
     self.myItem = [[NSStatusBar systemStatusBar] statusItemWithLength:NSVariableStatusItemLength];
-    // 设置NSStatusItem 的图片
-    NSImage *image = [NSImage imageNamed:@"settings"];
-    [self.myItem.button setImage: image];
     
     
-    
-    NSView *statusView = [[NSView alloc] initWithFrame:NSMakeRect(0, 0, self.showWidth, 20)];
-    [self.myItem setView:statusView];
-    
-    self.showView = [[NSTextField alloc] initWithFrame:NSMakeRect(0, 0, self.showWidth - 100, statusView.frame.size.height)];
-    self.showView.stringValue = [self.readStr substringWithRange:NSMakeRange(self.startIndex, self.showLength)];
+    self.showView = [[NSTextField alloc] initWithFrame:NSMakeRect(0, 0, 0, 20)];
     self.showView.editable = NO;
     self.showView.bordered = NO;
     self.showView.alignment = NSTextAlignmentCenter;
-    self.showView.backgroundColor = [NSColor orangeColor];
-    self.showView.font = [NSFont systemFontOfSize:self.fontSize];
-    self.showView.textColor = [NSColor whiteColor];
-    [statusView addSubview:self.showView];
+    self.showView.backgroundColor = self.setting.bgColor;
+    self.showView.font = [NSFont systemFontOfSize:self.setting.fontSize];
+    self.showView.textColor = self.setting.textColor;
+    [self showText];
+    [self.myItem setView:self.showView];
     
-    
-    NSButton *preBtn = [[NSButton alloc] initWithFrame:NSMakeRect(self.showView.frame.size.width, 0, 50, statusView.frame.size.height)];
-    preBtn.title = @"  <<  ";
-    [preBtn setAction:@selector(preAction)];
-    [statusView addSubview:preBtn];
-    
-    NSButton *nextBtn = [[NSButton alloc] initWithFrame:NSMakeRect(preBtn.frame.origin.x + preBtn.frame.size.width, 0, 50, statusView.frame.size.height)];
-    nextBtn.title = @"  >>  ";
-    [nextBtn setAction:@selector(openFile)];
-    [statusView addSubview:nextBtn];
-    
+//    NSStatusBarButton *settingBtn = [[NSStatusBarButton alloc] initWithFrame:NSMakeRect(self.showView.frame.size.width, 3, 17, 17)];
+//    settingBtn.image = [NSImage imageNamed:@"setting"];
+//    [self addRightClick:settingBtn];
+//    [statusView addSubview:settingBtn];
 }
 
-// 显示popover方法
-- (void)preAction
+- (void)showText
 {
-    if (self.startIndex != 0)
+    //如果文本最后长度<showLen则表示即将展示的文字为最后一行
+    
+    if(![SettingModel haveNovel])
     {
-        self.startIndex -= self.showLength;
-        self.showView.stringValue = [self.readStr substringWithRange:NSMakeRange(self.startIndex, self.showLength)];
+        self.showView.stringValue = @"请导入需要阅读的书籍";
+    }
+    else if(self.setting.endShowStrLength < self.setting.showLength)
+    {
+        self.showView.stringValue =  [self.setting.novel substringWithRange:NSMakeRange(self.setting.startIndex, self.setting.endShowStrLength)];
+    }
+    else
+    {
+        self.showView.stringValue =  [self.setting.novel substringWithRange:NSMakeRange(self.setting.startIndex, self.setting.showLength)];
+    }
+    NSLog(@"内容:%@",self.showView.stringValue);
+    [self.showView sizeToFit];
+    self.showView.frame = NSMakeRect(0, 0, self.showView.frame.size.width, 20);
+
+}
+
+
+- (void)lastLine
+{
+    self.setting.endShowStrLength =  self.setting.showLength;
+    if (self.setting.startIndex != 0)
+    {
+        self.setting.startIndex -= self.setting.showLength;
+        [self showText];
     }
 }
 
-// 显示popover方法
-- (void)nextAction
+
+- (void)nextLine
 {
-    long int endIndex = self.startIndex + self.showLength;
+    long int endIndex = self.setting.startIndex + self.setting.showLength;
     
     //起始位置不是文本最后一位则进入
-    if (endIndex < self.readStr.length)
+    if (endIndex < self.setting.novel.length)
     {
-        self.endShowStrLength = self.readStr.length - endIndex;
+        self.setting.endShowStrLength = self.setting.novel.length - endIndex;
         
-        self.startIndex = endIndex;
+        self.setting.startIndex = endIndex;
         
-        //如果文本最后长度<10则表示即将展示的文字为最后一行
-        if (self.endShowStrLength < self.showLength)
-        {
-            NSLog(@"文字进入了最后一行");
-            self.showView.stringValue = [self.readStr substringWithRange:NSMakeRange(self.startIndex, self.endShowStrLength)];
-        }
-        else
-        {
-            self.showView.stringValue = [self.readStr substringWithRange:NSMakeRange(self.startIndex, self.showLength)];
-        }
+        [self showText];
     }
 }
 
-- (void)openFile
+//导入阅读内容
+- (void)openPanel
 {
     NSOpenPanel *openPanel = [NSOpenPanel openPanel];
     
@@ -137,10 +278,66 @@
         NSURL *fileUrl = [[openPanel URLs] objectAtIndex:0];
         
         NSFileHandle *fileHandle = [NSFileHandle fileHandleForReadingFromURL:fileUrl error:nil];
-        NSString *fileContext = [[NSString alloc] initWithData:fileHandle.readDataToEndOfFile encoding:NSUTF8StringEncoding];
-        
-        NSLog(@"%@",fileContext);
+        NSString *str = [[[NSString alloc] initWithData:fileHandle.readDataToEndOfFile encoding:NSUTF8StringEncoding] stringByReplacingOccurrencesOfString:@" " withString:@""];
+        str = [str stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+        str = [str stringByReplacingOccurrencesOfString:@"\r" withString:@""];
+        str = [str stringByReplacingOccurrencesOfString:@"\n" withString:@""];
+        self.setting.novel = str;
+        [self showText];
     }
 }
+
+
+
+#pragma mark —— Popover
+
+- (void)addMonitorForEvent
+{
+    AppDelegate *__weak weakSelf = self;
+    [NSEvent addLocalMonitorForEventsMatchingMask:NSEventMaskRightMouseUp handler:^NSEvent * _Nullable(NSEvent * event) {
+        
+        NSPoint p = [event locationInWindow];
+        //判断坐标是否处于保护区内
+        if(CGRectContainsPoint(self.showView.frame, p))
+        {
+            weakSelf.popover = [[NSPopover alloc] init];
+            /* 设置动画 */
+            weakSelf.popover.behavior = NSPopoverBehaviorTransient;
+            /* 设置外观 */
+            weakSelf.popover.appearance = [NSAppearance appearanceNamed:NSAppearanceNameVibrantDark];
+            /* 设置展示视图 */
+            weakSelf.popover.contentViewController = [[HFPopoverController alloc] init];
+            /* 设置展示方位 */
+            [weakSelf.popover showRelativeToRect:self.showView.bounds ofView:self.showView preferredEdge:NSRectEdgeMaxY];
+        }
+        return event;
+    }];
+}
+
+
+
+//打开软件
+- (void)showClock
+{
+    //    [NSApp activateIgnoringOtherApps:YES];
+    //    [self.mainWindow makeKeyAndOrderFront:nil];
+    //    [self.mainWindow performSelector:@selector(orderFront:) withObject:nil afterDelay:0.1];
+    //
+    // 关于软件
+    //    [[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:@"http://tanhao.sinaapp.com"]];
+}
+
+//退出
+- (void)exit
+{
+    [SettingModel saveSetting:self.setting];
+    [[NSApplication sharedApplication] terminate:nil];
+}
+
+- (void)applicationWillTerminate:(NSNotification *)aNotification {
+    // Insert code here to tear down your application
+ 
+}
+
 
 @end

@@ -51,18 +51,7 @@
     
     // 为NSStatusItem 添加点击事件
     self.myItem.target = self;
-    self.myItem.button.action = @selector(showMyPopover:);
-    
-//    // 防止下面的block方法中造成循环引用
-//    __weak typeof (self) weakSelf = self;
-//    // 添加对鼠标左键进行事件监听
-//    // 如果想对其他事件监听也进行监听，可以修改第一个枚举参数： NSEventMaskLeftMouseDown | 你要监听的其他枚举值
-//    [NSEvent addGlobalMonitorForEventsMatchingMask:NSEventMaskLeftMouseDown handler:^(NSEvent * event) {
-//        if (weakSelf.popover.isShown) {
-//            // 关闭popover；
-//            [weakSelf.popover close];
-//        }
-//    }];
+    self.myItem.button.action = @selector(showMyPopover:); 
 }
 // 显示popover方法
 - (void)showMyPopover:(NSStatusBarButton *)button{
