@@ -29,6 +29,9 @@
 //保存设置信息
 + (BOOL)saveSetting:(SettingModel *)setting;
 
+//删除配置文件
++ (void)removeSetting;
+
 + (BOOL)haveNovel;
 
 @end

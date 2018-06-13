@@ -21,8 +21,9 @@
 @property (nonatomic, strong)  NSPopover *popover;
 
 @property (nonatomic ,strong)   NSStatusItem *myItem;
+@property (nonatomic, strong)   NSView *statusView;
 @property (nonatomic, strong)   NSTextField *showView;
-
+@property (nonatomic, strong)   NSStatusBarButton  *settingBtn;
 @property (nonatomic, strong)   SettingModel *setting;
 
 #define NOTI_HOTKEY @"NOTI_HOTKEY"
@@ -107,7 +108,9 @@ OSStatus GlobalHotKeyHandler(EventHandlerCallRef nextHandler,EventRef theEvent,
 - (void)setHotKey
 {
     [self registHotKey];
-    [self addMonitorForEvent];
+    
+    
+//    [self addMonitorForEvent];
 }
 
 
@@ -185,6 +188,7 @@ OSStatus GlobalHotKeyHandler(EventHandlerCallRef nextHandler,EventRef theEvent,
 
 - (void)setStatus
 {
+    [SettingModel removeSetting];
     if ([SettingModel haveNovel])
     {
         self.setting = [SettingModel settingInfo];
@@ -196,21 +200,62 @@ OSStatus GlobalHotKeyHandler(EventHandlerCallRef nextHandler,EventRef theEvent,
     
     self.myItem = [[NSStatusBar systemStatusBar] statusItemWithLength:NSVariableStatusItemLength];
     
+    self.statusView = [[NSView alloc] initWithFrame:NSMakeRect(0, 0, 100, 20)];
+    [self.myItem setView:self.statusView];
     
-    self.showView = [[NSTextField alloc] initWithFrame:NSMakeRect(0, 0, 0, 20)];
+    self.showView = [[NSTextField alloc] initWithFrame:NSMakeRect(0, 0, self.statusView.frame.size.width - 17, 20)];
     self.showView.editable = NO;
     self.showView.bordered = NO;
     self.showView.alignment = NSTextAlignmentCenter;
     self.showView.backgroundColor = self.setting.bgColor;
     self.showView.font = [NSFont systemFontOfSize:self.setting.fontSize];
     self.showView.textColor = self.setting.textColor;
-    [self showText];
-    [self.myItem setView:self.showView];
+//    [self showText];
+    [self.statusView addSubview:self.showView];
     
-//    NSStatusBarButton *settingBtn = [[NSStatusBarButton alloc] initWithFrame:NSMakeRect(self.showView.frame.size.width, 3, 17, 17)];
-//    settingBtn.image = [NSImage imageNamed:@"setting"];
+    self.settingBtn = [[NSStatusBarButton alloc] initWithFrame:NSMakeRect(self.showView.frame.size.width, 3, 17, 17)];
+    self.settingBtn.image = [NSImage imageNamed:@"setting"];
+    
 //    [self addRightClick:settingBtn];
-//    [statusView addSubview:settingBtn];
+    [self.statusView addSubview:self.settingBtn];
+    // 创建监视区
+    NSTrackingArea *trackingArea = [[NSTrackingArea alloc] initWithRect:self.settingBtn.bounds options:
+                                    NSTrackingMouseMoved |
+                                    NSTrackingMouseEnteredAndExited |
+                                    NSTrackingActiveAlways owner:self userInfo:nil];
+    
+    // 添加到View中
+    [self.settingBtn addTrackingArea:trackingArea];
+}
+
+-(void)rightMouseDown:(NSEvent *)event{
+    
+    //创建Menu
+    
+    NSMenu *theMenu = [[NSMenu alloc] initWithTitle:@"Contextual Menu"];
+    
+    //自定义的NSMenuItem
+    
+    NSMenuItem *item3 = [[NSMenuItem alloc]init];
+    
+    item3.title = @"Item 3";
+    item3.target = self;
+    item3.action = @selector(beep:);
+    
+    [theMenu insertItemWithTitle:@"Item 1"action:@selector(beep:)keyEquivalent:@""atIndex:0];
+    
+    [theMenu insertItemWithTitle:@"Item 2"action:@selector(beep:)keyEquivalent:@""atIndex:1];
+    
+    [theMenu insertItem:item3 atIndex:2];
+    
+    [NSMenu popUpContextMenu:theMenu withEvent:event forView:self.showView];
+    
+}
+
+-(void)beep:(NSMenuItem *)menuItem{
+    
+    NSLog(@"_____%@", menuItem);
+    
 }
 
 - (void)showText
@@ -283,11 +328,15 @@ OSStatus GlobalHotKeyHandler(EventHandlerCallRef nextHandler,EventRef theEvent,
         str = [str stringByReplacingOccurrencesOfString:@"\r" withString:@""];
         str = [str stringByReplacingOccurrencesOfString:@"\n" withString:@""];
         self.setting.novel = str;
+        [self saveModel];
         [self showText];
     }
 }
 
-
+- (void)saveModel
+{
+    [SettingModel saveSetting:self.setting];
+}
 
 #pragma mark —— Popover
 

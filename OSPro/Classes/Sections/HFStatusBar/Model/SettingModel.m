@@ -20,6 +20,7 @@ MJExtensionCodingImplementation
     if (self = [super init]) {
         self.startIndex = 0;
         self.showLength = DEFAULT_SHOW_LENGTH;
+        self.endShowStrLength = self.showLength;
         self.textColor  = [NSColor orangeColor];
         self.bgColor = [NSColor clearColor];
         self.fontSize = 14;
@@ -46,10 +47,34 @@ MJExtensionCodingImplementation
     
 }
 
++ (void)removeSetting
+{
+    if ([SettingModel removeFile:kSavaFullPath(@"setting.plist")])
+    {
+        NSLog(@"删除配置文件成功");
+    }
+}
+
++(BOOL)removeFile:(NSString*)filePath
+{
+    BOOL isExist=[[NSFileManager defaultManager] fileExistsAtPath:filePath];
+    if (!isExist)
+    {
+        NSLog(@"isExist = No");
+        return YES;
+    }else
+    {
+        BOOL result= [[NSFileManager defaultManager] removeItemAtPath:filePath error:nil];
+        
+        return result;
+    }
+}
+
 + (BOOL)haveNovel
 {
     SettingModel *setting = [self settingInfo];
     return (setting.novel.length > 0);//沙盒里面 用户名
 }
+
 
 @end
