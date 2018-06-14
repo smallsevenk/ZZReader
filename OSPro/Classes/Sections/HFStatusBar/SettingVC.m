@@ -10,7 +10,7 @@
 #import "SettingModel.h"
 
 @interface SettingVC ()
-<NSTableViewDelegate,NSTableViewDataSource>
+<NSTableViewDelegate,NSTableViewDataSource,NSComboBoxDelegate>
 
 
 @property (nonatomic, strong)   NSTableView *tbView;
@@ -53,29 +53,32 @@
         
         NSComboBox *cb1 = [[NSComboBox alloc] initWithFrame:NSMakeRect(titleTf.frame.size.width + 10, titleTf.frame.origin.y - 5, 50, 25)];
         cb1.font = [NSFont systemFontOfSize:12];
+        cb1.tag = i;
 //        [cb1 setAlignment:NSTextAlignmentJustified];
         [cb1 addItemsWithObjectValues:valueArr[i]];
+        [cb1 setEditable:NO];
+        [cb1 setAction:@selector(cbValueChange:)];
         [self.mainView addSubview:cb1];
         
         NSInteger idx = 0;
         
         switch (i) {
-            case 0:
+            case SettingType_fontSize://字体大小
             {
                 idx = [sizeArr indexOfObject:[NSString stringWithFormat:@"%ld",(long)self.setting.fontSize]];
             }
                 break;
-            case 1:
+            case SettingType_textColor://文字颜色
             {
                 idx = [colorArr indexOfObject:self.setting.textColor];
             }
                 break;
-            case 2:
+            case SettingType_bgColor://背景颜色
             {
                 idx = [colorArr indexOfObject:self.setting.bgColor];
             }
                 break;
-            case 3:
+            case SettingType_showLen://每屏字数
             {
                 idx = [lenArr indexOfObject:[NSString stringWithFormat:@"%ld",(long)self.setting.showLength]];
             }
@@ -89,6 +92,39 @@
     }
 }
 
+
+- (void)cbValueChange:(NSComboBox *)cb
+{
+    NSString *cbValue = cb.stringValue;
+    
+    switch (cb.tag) {
+        case SettingType_fontSize://字体大小
+        {
+            self.setting.fontSize = [cbValue integerValue];
+        }
+            break;
+        case SettingType_textColor://文字颜色
+        {
+            self.setting.textColor = cbValue;
+        }
+            break;
+        case SettingType_bgColor://背景颜色
+        {
+            self.setting.bgColor = cbValue;
+        }
+            break;
+        case SettingType_showLen://每屏字数
+        {
+            self.setting.showLength = [cbValue integerValue];
+        }
+            break;
+            
+        default:
+            break;
+    }
+    
+    [SettingModel saveSetting:self.setting];
+}
 
 
 #pragma mark —— TableView

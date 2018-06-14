@@ -12,6 +12,13 @@
 
 @interface SettingModel : NSObject<NSCoding>
 
+typedef NS_ENUM(NSInteger, SettingType) {
+    SettingType_fontSize = 0,//字体大小
+    SettingType_textColor = 1 << 0,//字体颜色
+    SettingType_bgColor = 1 << 1,//文字背景色
+    SettingType_showLen = 1 << 2,//文字长度
+};  
+
 @property (nonatomic, copy)     NSString *filePath;
 @property (nonatomic, copy)     NSString *novel;//文本内容
 @property (nonatomic, assign)   long int startIndex;//显示文字起始位置

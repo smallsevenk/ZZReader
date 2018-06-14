@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		A62F389F20CE5AD700054F06 /* StatusButton.m in Sources */ = {isa = PBXBuildFile; fileRef = A62F389E20CE5AD700054F06 /* StatusButton.m */; };
+		A66173A720D1FD4100989F9A /* HFStatusView.m in Sources */ = {isa = PBXBuildFile; fileRef = A66173A620D1FD4100989F9A /* HFStatusView.m */; };
 		A6EEEA4E20CE43DD0096D48A /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = A6EEEA4D20CE43DD0096D48A /* AppDelegate.m */; };
 		A6EEEA5020CE43DD0096D48A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A6EEEA4F20CE43DD0096D48A /* Assets.xcassets */; };
 		A6EEEA5620CE43DD0096D48A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = A6EEEA5520CE43DD0096D48A /* main.m */; };
@@ -19,7 +20,6 @@
 		A6F4375820D0F451006A808B /* SettingVC.m in Sources */ = {isa = PBXBuildFile; fileRef = A6F4375620D0F451006A808B /* SettingVC.m */; };
 		A6F4375920D0F451006A808B /* SettingVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = A6F4375720D0F451006A808B /* SettingVC.xib */; };
 		A6F4385320D10048006A808B /* FlippedView.m in Sources */ = {isa = PBXBuildFile; fileRef = A6F4385220D10048006A808B /* FlippedView.m */; };
-		A6F4385620D10D3E006A808B /* SettingCol.m in Sources */ = {isa = PBXBuildFile; fileRef = A6F4385520D10D3E006A808B /* SettingCol.m */; };
 		A6FE994B20CF5BFB002003F8 /* Carbon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A6FE994A20CF5BFB002003F8 /* Carbon.framework */; };
 		A6FE995B20CFBD7A002003F8 /* SettingModel.m in Sources */ = {isa = PBXBuildFile; fileRef = A6FE995A20CFBD7A002003F8 /* SettingModel.m */; };
 		A6FE997320CFC2E8002003F8 /* MJPropertyType.m in Sources */ = {isa = PBXBuildFile; fileRef = A6FE996120CFC2E8002003F8 /* MJPropertyType.m */; };
@@ -37,6 +37,8 @@
 /* Begin PBXFileReference section */
 		A62F389D20CE5AD700054F06 /* StatusButton.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = StatusButton.h; sourceTree = "<group>"; };
 		A62F389E20CE5AD700054F06 /* StatusButton.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = StatusButton.m; sourceTree = "<group>"; };
+		A66173A520D1FD4100989F9A /* HFStatusView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HFStatusView.h; sourceTree = "<group>"; };
+		A66173A620D1FD4100989F9A /* HFStatusView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HFStatusView.m; sourceTree = "<group>"; };
 		A6EEEA4920CE43DD0096D48A /* OSPro.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = OSPro.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A6EEEA4C20CE43DD0096D48A /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		A6EEEA4D20CE43DD0096D48A /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
@@ -57,8 +59,6 @@
 		A6F4375720D0F451006A808B /* SettingVC.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = SettingVC.xib; sourceTree = "<group>"; };
 		A6F4385120D10048006A808B /* FlippedView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FlippedView.h; sourceTree = "<group>"; };
 		A6F4385220D10048006A808B /* FlippedView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FlippedView.m; sourceTree = "<group>"; };
-		A6F4385420D10D3E006A808B /* SettingCol.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SettingCol.h; sourceTree = "<group>"; };
-		A6F4385520D10D3E006A808B /* SettingCol.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SettingCol.m; sourceTree = "<group>"; };
 		A6FE994A20CF5BFB002003F8 /* Carbon.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Carbon.framework; path = System/Library/Frameworks/Carbon.framework; sourceTree = SDKROOT; };
 		A6FE995920CFBD7A002003F8 /* SettingModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SettingModel.h; sourceTree = "<group>"; };
 		A6FE995A20CFBD7A002003F8 /* SettingModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SettingModel.m; sourceTree = "<group>"; };
@@ -212,8 +212,8 @@
 		A6F4374D20D0AD3D006A808B /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				A6F4385420D10D3E006A808B /* SettingCol.h */,
-				A6F4385520D10D3E006A808B /* SettingCol.m */,
+				A66173A520D1FD4100989F9A /* HFStatusView.h */,
+				A66173A620D1FD4100989F9A /* HFStatusView.m */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -345,6 +345,7 @@
 			files = (
 				A6FE997320CFC2E8002003F8 /* MJPropertyType.m in Sources */,
 				A6FE997720CFC2E8002003F8 /* MJExtensionConst.m in Sources */,
+				A66173A720D1FD4100989F9A /* HFStatusView.m in Sources */,
 				A6F4385320D10048006A808B /* FlippedView.m in Sources */,
 				A6FE995B20CFBD7A002003F8 /* SettingModel.m in Sources */,
 				A6FE997C20CFC2E8002003F8 /* MJFoundation.m in Sources */,
@@ -362,7 +363,6 @@
 				A6EEEA6E20CE471B0096D48A /* MainWindowCtr.m in Sources */,
 				A6F4375820D0F451006A808B /* SettingVC.m in Sources */,
 				A6FE997520CFC2E8002003F8 /* MJProperty.m in Sources */,
-				A6F4385620D10D3E006A808B /* SettingCol.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
