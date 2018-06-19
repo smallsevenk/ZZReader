@@ -11,4 +11,6 @@
 
 @interface SettingVC : HFBaseController
 
++ (SettingVC *) share;
+
 @end

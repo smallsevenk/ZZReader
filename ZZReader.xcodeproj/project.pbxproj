@@ -7,7 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		A62F389F20CE5AD700054F06 /* StatusButton.m in Sources */ = {isa = PBXBuildFile; fileRef = A62F389E20CE5AD700054F06 /* StatusButton.m */; };
+		A6236DD620D387E4002480D3 /* SearchVC.m in Sources */ = {isa = PBXBuildFile; fileRef = A6236DD420D387E4002480D3 /* SearchVC.m */; };
+		A6236DD720D387E4002480D3 /* SearchVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = A6236DD520D387E4002480D3 /* SearchVC.xib */; };
 		A66173A720D1FD4100989F9A /* HFStatusView.m in Sources */ = {isa = PBXBuildFile; fileRef = A66173A620D1FD4100989F9A /* HFStatusView.m */; };
 		A6EEEA4E20CE43DD0096D48A /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = A6EEEA4D20CE43DD0096D48A /* AppDelegate.m */; };
 		A6EEEA5020CE43DD0096D48A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A6EEEA4F20CE43DD0096D48A /* Assets.xcassets */; };
@@ -35,11 +36,12 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		A62F389D20CE5AD700054F06 /* StatusButton.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = StatusButton.h; sourceTree = "<group>"; };
-		A62F389E20CE5AD700054F06 /* StatusButton.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = StatusButton.m; sourceTree = "<group>"; };
+		A6236DD320D387E4002480D3 /* SearchVC.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SearchVC.h; sourceTree = "<group>"; };
+		A6236DD420D387E4002480D3 /* SearchVC.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SearchVC.m; sourceTree = "<group>"; };
+		A6236DD520D387E4002480D3 /* SearchVC.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = SearchVC.xib; sourceTree = "<group>"; };
 		A66173A520D1FD4100989F9A /* HFStatusView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HFStatusView.h; sourceTree = "<group>"; };
 		A66173A620D1FD4100989F9A /* HFStatusView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HFStatusView.m; sourceTree = "<group>"; };
-		A6EEEA4920CE43DD0096D48A /* OSPro.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = OSPro.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		A6EEEA4920CE43DD0096D48A /* ZZReader.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ZZReader.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A6EEEA4C20CE43DD0096D48A /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		A6EEEA4D20CE43DD0096D48A /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
 		A6EEEA4F20CE43DD0096D48A /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -103,7 +105,7 @@
 				A6EEEA4F20CE43DD0096D48A /* Assets.xcassets */,
 				A6EEEA4C20CE43DD0096D48A /* AppDelegate.h */,
 				A6EEEA4D20CE43DD0096D48A /* AppDelegate.m */,
-				A6EEEA4B20CE43DD0096D48A /* OSPro */,
+				A6EEEA4B20CE43DD0096D48A /* ZZReader */,
 				A6EEEA4A20CE43DD0096D48A /* Products */,
 				A6FE994920CF5BFA002003F8 /* Frameworks */,
 			);
@@ -112,18 +114,19 @@
 		A6EEEA4A20CE43DD0096D48A /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				A6EEEA4920CE43DD0096D48A /* OSPro.app */,
+				A6EEEA4920CE43DD0096D48A /* ZZReader.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
 		};
-		A6EEEA4B20CE43DD0096D48A /* OSPro */ = {
+		A6EEEA4B20CE43DD0096D48A /* ZZReader */ = {
 			isa = PBXGroup;
 			children = (
 				A6F4374B20D0ACF3006A808B /* Support */,
 				A6EEEA5E20CE446F0096D48A /* Main */,
 				A6EEEA5D20CE44670096D48A /* Classes */,
 			);
+			name = ZZReader;
 			path = OSPro;
 			sourceTree = "<group>";
 		};
@@ -181,8 +184,6 @@
 		A6F4374A20D0ACB0006A808B /* comm */ = {
 			isa = PBXGroup;
 			children = (
-				A62F389D20CE5AD700054F06 /* StatusButton.h */,
-				A62F389E20CE5AD700054F06 /* StatusButton.m */,
 				A6F4385120D10048006A808B /* FlippedView.h */,
 				A6F4385220D10048006A808B /* FlippedView.m */,
 			);
@@ -201,10 +202,12 @@
 			isa = PBXGroup;
 			children = (
 				A6F4374E20D0AD47006A808B /* Model */,
-				A6F4374D20D0AD3D006A808B /* Views */,
 				A6F4375520D0F451006A808B /* SettingVC.h */,
 				A6F4375620D0F451006A808B /* SettingVC.m */,
 				A6F4375720D0F451006A808B /* SettingVC.xib */,
+				A6236DD320D387E4002480D3 /* SearchVC.h */,
+				A6236DD420D387E4002480D3 /* SearchVC.m */,
+				A6236DD520D387E4002480D3 /* SearchVC.xib */,
 			);
 			path = HFStatusBar;
 			sourceTree = "<group>";
@@ -223,6 +226,7 @@
 			children = (
 				A6FE995920CFBD7A002003F8 /* SettingModel.h */,
 				A6FE995A20CFBD7A002003F8 /* SettingModel.m */,
+				A6F4374D20D0AD3D006A808B /* Views */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -274,9 +278,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		A6EEEA4820CE43DD0096D48A /* OSPro */ = {
+		A6EEEA4820CE43DD0096D48A /* ZZReader */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = A6EEEA5A20CE43DD0096D48A /* Build configuration list for PBXNativeTarget "OSPro" */;
+			buildConfigurationList = A6EEEA5A20CE43DD0096D48A /* Build configuration list for PBXNativeTarget "ZZReader" */;
 			buildPhases = (
 				A6EEEA4520CE43DD0096D48A /* Sources */,
 				A6EEEA4620CE43DD0096D48A /* Frameworks */,
@@ -286,9 +290,9 @@
 			);
 			dependencies = (
 			);
-			name = OSPro;
+			name = ZZReader;
 			productName = OSPro;
-			productReference = A6EEEA4920CE43DD0096D48A /* OSPro.app */;
+			productReference = A6EEEA4920CE43DD0096D48A /* ZZReader.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -306,7 +310,7 @@
 					};
 				};
 			};
-			buildConfigurationList = A6EEEA4420CE43DD0096D48A /* Build configuration list for PBXProject "OSPro" */;
+			buildConfigurationList = A6EEEA4420CE43DD0096D48A /* Build configuration list for PBXProject "ZZReader" */;
 			compatibilityVersion = "Xcode 8.0";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
@@ -319,7 +323,7 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				A6EEEA4820CE43DD0096D48A /* OSPro */,
+				A6EEEA4820CE43DD0096D48A /* ZZReader */,
 			);
 		};
 /* End PBXProject section */
@@ -329,6 +333,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A6236DD720D387E4002480D3 /* SearchVC.xib in Resources */,
 				A6EEEA6F20CE471B0096D48A /* MainWindowCtr.xib in Resources */,
 				A6F4375920D0F451006A808B /* SettingVC.xib in Resources */,
 				A6EEEA5020CE43DD0096D48A /* Assets.xcassets in Resources */,
@@ -351,7 +356,7 @@
 				A6FE997C20CFC2E8002003F8 /* MJFoundation.m in Sources */,
 				A6FE997920CFC2E8002003F8 /* NSObject+MJClass.m in Sources */,
 				A6EEEA6720CE45B40096D48A /* HomeController.m in Sources */,
-				A62F389F20CE5AD700054F06 /* StatusButton.m in Sources */,
+				A6236DD620D387E4002480D3 /* SearchVC.m in Sources */,
 				A6FE997B20CFC2E8002003F8 /* MJPropertyKey.m in Sources */,
 				A6EEEA5620CE43DD0096D48A /* main.m in Sources */,
 				A6FE997A20CFC2E8002003F8 /* NSString+MJExtension.m in Sources */,
@@ -482,6 +487,7 @@
 				DEVELOPMENT_TEAM = 65J34FVCL3;
 				INFOPLIST_FILE = OSPro/Main/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
+				MACOSX_DEPLOYMENT_TARGET = 10.10;
 				PRODUCT_BUNDLE_IDENTIFIER = HappinessFamily.OSPro;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
@@ -497,6 +503,7 @@
 				DEVELOPMENT_TEAM = 65J34FVCL3;
 				INFOPLIST_FILE = OSPro/Main/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
+				MACOSX_DEPLOYMENT_TARGET = 10.10;
 				PRODUCT_BUNDLE_IDENTIFIER = HappinessFamily.OSPro;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
@@ -505,7 +512,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		A6EEEA4420CE43DD0096D48A /* Build configuration list for PBXProject "OSPro" */ = {
+		A6EEEA4420CE43DD0096D48A /* Build configuration list for PBXProject "ZZReader" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				A6EEEA5820CE43DD0096D48A /* Debug */,
@@ -514,7 +521,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		A6EEEA5A20CE43DD0096D48A /* Build configuration list for PBXNativeTarget "OSPro" */ = {
+		A6EEEA5A20CE43DD0096D48A /* Build configuration list for PBXNativeTarget "ZZReader" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				A6EEEA5B20CE43DD0096D48A /* Debug */,

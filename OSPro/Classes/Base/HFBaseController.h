@@ -13,4 +13,6 @@
 
 @property (nonatomic, strong)   FlippedView *mainView;
 
+- (void)setMainViewRect:(NSRect)rect;
+
 @end

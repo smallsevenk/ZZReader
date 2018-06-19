@@ -25,6 +25,9 @@ MJExtensionCodingImplementation
         self.bgColor = @"无";
         self.fontSize = 14;
         self.novel = @"";
+        self.autoLine = 0;
+        self.autoLineSec = 1;
+        self.statusColor = [NSColor colorWithRed:255.0/255.0 green:255.0/255.0 blue:255.0/255.0 alpha:.2]; 
     }
     
     return self;

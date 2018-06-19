@@ -12,6 +12,7 @@
 @interface AppDelegate : NSObject <NSApplicationDelegate>
 
 @property (strong)  MainWindowCtr *mainWindow;
+@property (nonatomic ,strong)   NSStatusItem *myItem;
 
 + (AppDelegate*)share;
 

@@ -24,11 +24,16 @@
 
 - (void)setUpViews
 {
-    self.view.frame = NSMakeRect(0, 0, 500, 300);
     mainView = [[FlippedView alloc] initWithFrame:self.view.frame];
     mainView.layer.backgroundColor = [[NSColor orangeColor] CGColor];
     mainView.needsDisplay = YES; 
     [self.view addSubview:mainView];
+}
+
+- (void)setMainViewRect:(NSRect)rect
+{
+    self.view.frame = rect;
+    self.mainView.frame = rect;
 }
 
 @end

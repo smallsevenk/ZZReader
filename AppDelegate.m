@@ -8,6 +8,7 @@
 
 #import "AppDelegate.h"
 #import "HFStatusView.h"
+#import "SettingVC.h"
 
 @interface AppDelegate ()
 
@@ -20,18 +21,12 @@
     return (AppDelegate*)[NSApplication sharedApplication].delegate;
 }
 
-- (void)applicationDidFinishLaunching:(NSNotification *)aNotification {
-    // Insert code here to initialize your application
-//    _mainWindow = [[MainWindowCtr alloc] initWithWindowNibName:@"MainWindowCtr"];
-//    //显示在屏幕中心
-//    [[_mainWindow window] center];
-//    //当前窗口显示
-//    [_mainWindow.window orderFront:nil];
-    
-    [HFStatusView addStatusView];
+- (void)applicationDidFinishLaunching:(NSNotification *)aNotification
+{ 
+    self.mainWindow = [[MainWindowCtr alloc] initWithWindowNibName:@"MainWindowCtr"];
+    self.myItem = [[NSStatusBar systemStatusBar] statusItemWithLength:NSVariableStatusItemLength];
+    [self.myItem setView:[HFStatusView share]];
 }
-
-
 
 - (void)applicationWillTerminate:(NSNotification *)aNotification {
     // Insert code here to tear down your application

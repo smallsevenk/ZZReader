@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<VariablesViewState
+   version = "1.0">
+   <ContextStates>
+      <ContextState
+         contextName = "-[SettingVC comboBoxSelectionIsChanging:]:SettingVC.m">
+      </ContextState>
+      <ContextState
+         contextName = "-[SettingVC setUpView]:SettingVC.m">
+      </ContextState>
+      <ContextState
+         contextName = "-[HFStatusView setStatus]:HFStatusView.m">
+      </ContextState>
+      <ContextState
+         contextName = "-[HFStatusView showText]:HFStatusView.m">
+         <PersistentStrings>
+            <PersistentString
+               value = "">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+   </ContextStates>
+</VariablesViewState>

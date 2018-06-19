@@ -12,13 +12,20 @@
 
 @interface HFStatusView : NSView
 
-@property (nonatomic, strong)   NSView *statusView;
 @property (nonatomic, strong)   NSTextField *showView;
 @property (nonatomic, strong)   NSStatusBarButton  *settingBtn;
 @property (nonatomic, strong)   SettingModel *setting;
+@property (nonatomic, strong)   SettingModel *newSetting;
+@property (nonatomic, assign)   id monitor;
 
+#define NOTI_AUTOLINE @"NOTI_AUTOLINE"
 #define NOTI_HOTKEY @"NOTI_HOTKEY"
 
-+ (void)addStatusView;
++ (HFStatusView *) share;
+
+//更新至最新配置
+- (void)updateToNewSetting;
+
+- (void)nextPage;
 
 @end

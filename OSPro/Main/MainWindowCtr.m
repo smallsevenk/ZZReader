@@ -17,9 +17,7 @@
 @implementation MainWindowCtr
 
 - (void)windowDidLoad {
-    [super windowDidLoad];
-    
-    self.window.title = @"测试";  
+    [super windowDidLoad]; 
    
 }
 @end
